@@ -45,6 +45,3 @@ VUE_APP_LOCALE=linguagem de retorno das requisições. Exemplo: pt_br
 VUE_APP_PAGE_CONFIG_LIMIT=Limite de registros por tela. Exemplo: 10
 
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
