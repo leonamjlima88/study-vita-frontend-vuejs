@@ -1,0 +1,108 @@
+<template>
+  <div class="container p-0">
+    <div class="row">
+      <div class="col-md-12">
+        <!-- INICIO DO card -->
+        <div class="card">
+          <div class="card-header">
+            <h4>
+              Clientes
+              <button @click="openCustomerCreateRoute()" class="btn btn-success float-end">
+                <fa icon="circle-plus" class="mx-1"></fa>
+                Incluir
+              </button>
+            </h4>
+          </div>
+
+          <!-- SIMULAÇÃO DE SKELETON -->
+          <div v-if="isLoading" class="text-center m-5">
+            <div class="spinner-border text-info" role="status"></div>
+            <h4 class="text-info">Carregando...</h4>
+          </div>
+
+          <div class="card m-1" v-if="!isLoading">
+            <div class="card-header">
+              <h5>Filtros</h5>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-10 col-lg-11 mb-2">
+                  <input
+                    v-model="filterConfig.customSearch"
+                    @keyup.enter="getCustomerList(true)"
+                    type="text"
+                    class="form-control"
+                    placeholder="Pesquise por ID, Nome, Documento, Endereço, Cidade, Telefone ou E-mail..."
+                  />
+                </div>
+                <div class="col-md-2 col-lg-1 mb-2">
+                  <button @click="getCustomerList(true)" class="btn btn-button btn-primary float-end">Pesquisar</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-body">
+              <!-- INICIO DA table -->
+              <table class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th class="col-sm-1 col-lg-1">ID</th>
+                    <th class="col-sm-8 col-lg-9">Nome</th>
+                    <th class="col-sm-3 col-lg-2 text-center">Ação</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="currentCustomer in s_customerList.data" :key="currentCustomer.id">
+                    <td>{{ currentCustomer.id }}</td>
+                    <td>{{ currentCustomer.business_name }}</td>
+                    <td class="text-center">
+                      <div class="row"></div>
+                      <a @click="openCustomerEditRoute(currentCustomer.id)" class="btn btn-button btn btn-outline-primary btn-sm mx-1">
+                        <fa icon="pen"></fa>
+                      </a>
+                      <a @click="destroyCustomer(currentCustomer.id)" class="btn btn-button btn btn-outline-danger btn-sm mx-1">
+                        <fa icon="trash-can"></fa>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <!-- FIM DA table -->
+            </div>
+
+            <!-- INICIO DA paginação -->
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <!-- Primeira página -->
+                <li :class="((pageConfig.current != 1) && (s_customerList.last_page > 0)) ? 'page-item' : 'page-item disabled'" >
+                  <a class="page-link" @click="changePage('first')"><fa icon="angles-left" class="mx-1"></fa></a>
+                </li>
+                <!-- Página Anterior -->
+                <li :class="(pageConfig.current > 1) ? 'page-item' : 'page-item disabled'" >
+                  <a class="page-link" @click="changePage('prior')">Anterior</a>
+                </li>
+                <!-- Página Atual -->
+                <li class="page-item disabled">
+                  <a class="page-link" href="#">{{ pageConfig.current }}</a>
+                </li>
+                <!-- Próxima página -->
+                <li :class="(pageConfig.current != s_customerList.last_page) ? 'page-item' : 'page-item disabled'" >
+                  <a class="page-link" @click="changePage('next')">Próxima</a>
+                </li>
+                <!-- Última página -->
+                <li :class="(pageConfig.current != s_customerList.last_page) ? 'page-item' : 'page-item disabled'" >
+                  <a class="page-link" @click="changePage('last')"><fa icon="angles-right" class="mx-1"></fa></a>
+                </li>
+              </ul>
+            </nav>
+            <!-- FIM DA paginação -->
+          </div>
+          <!-- FIM DO card -->
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script src="./CustomerList.js"></script>
+<style src="./CustomerList.css" scoped></style>
