@@ -41,11 +41,11 @@ export default {
     this.init()    
   },
   methods: {
-    init(){
+    async init(){
       try {
         NProgress.start()
         this.isLoading = true
-        this.getCustomerById(this.$route.params.id)
+        await this.getCustomerById(this.$route.params.id)
       } finally {
         NProgress.done()
         this.isLoading = false
@@ -57,9 +57,9 @@ export default {
     /**
      * Localizar Registro por Id
      */
-     getCustomerById(id){
+     async getCustomerById(id){
       try {
-        customerStore().show(id)
+        await customerStore().show(id)
       } catch (error) {
         console.log(error)
       }

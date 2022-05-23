@@ -26,11 +26,11 @@ export default {
     this.init()
   },
   methods: {
-    init(){
+    async init(){
       try {
         NProgress.start()
         this.isLoading = true
-        this.getCustomerList(true, true)
+        await this.getCustomerList(true, true)
       } finally {
         NProgress.done()
         this.isLoading = false
@@ -40,7 +40,7 @@ export default {
     /**
      * Listar Registros
      */
-    getCustomerList(resetPageConfig, resetFilterConfig){      
+    async getCustomerList(resetPageConfig, resetFilterConfig){      
       // Resetar Configuração de Página
       if (resetPageConfig) {
         this.pageConfig = {
@@ -59,7 +59,7 @@ export default {
       
       // Efetuar Pesquisa
       try {
-        customerStore().index(this.pageConfig, this.filterConfig)        
+        await customerStore().index(this.pageConfig, this.filterConfig)        
       } catch (error) {
         console.log(error)
       }
