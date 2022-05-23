@@ -37,9 +37,13 @@ yarn serve
 
 ### Configuração do arquivo .env
 NODE_ENV=development
+
 VUE_APP_URL=url configurada na API. Exemplo: http://study-vita-backend-laravel.test/api
+
 VUE_APP_LOCALE=linguagem de retorno das requisições. Exemplo: pt_br
+
 VUE_APP_PAGE_CONFIG_LIMIT=Limite de registros por tela. Exemplo: 10
+
 ```
 
 ### Customize configuration
