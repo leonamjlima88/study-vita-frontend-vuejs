@@ -1,5 +1,5 @@
 import NProgress from 'nprogress'
-import * as store from '@/store'
+import { productStore } from '@/store'
 
 export default {
   name: "ProductList",
@@ -20,17 +20,17 @@ export default {
     }
   },
   computed: {    
-    s_productList: () => store.productStore().getItemList,    
+    s_productList: () => productStore().getItemList,    
   },   
   mounted() {
     this.init()
   },
   methods: {
-    init(){
+    async init(){
       try {
         NProgress.start()
         this.isLoading = true
-        this.getProductList(true, true)
+        await this.getProductList(true, true)
       } finally {
         NProgress.done()
         this.isLoading = false
@@ -40,7 +40,7 @@ export default {
     /**
      * Listar Registros
      */
-    getProductList(resetPageConfig, resetFilterConfig){
+    async getProductList(resetPageConfig, resetFilterConfig){
       // Resetar Configuração de Página
       if (resetPageConfig) {
         this.pageConfig = {
@@ -59,7 +59,7 @@ export default {
       
       // Efetuar Pesquisa
       try {
-        store.productStore().index(this.pageConfig, this.filterConfig)        
+        await productStore().index(this.pageConfig, this.filterConfig)        
       } catch (error) {
         console.log(error)
       }
@@ -95,7 +95,7 @@ export default {
       this.$helper.swal.confirmDelete().then( async (result) => {
         if (result.isConfirmed) {
           try {
-            await store.productStore().destroy(id)
+            await productStore().destroy(id)
           } catch (error) {
             this.$helper.swal.error(error.response.data.result)
             throw error

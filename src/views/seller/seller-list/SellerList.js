@@ -26,11 +26,11 @@ export default {
     this.init()
   },
   methods: {
-    init(){
+    async init(){
       try {
         NProgress.start()
         this.isLoading = true
-        this.getSellerList(true, true)
+        await this.getSellerList(true, true)
       } finally {
         NProgress.done()
         this.isLoading = false
@@ -40,7 +40,7 @@ export default {
     /**
      * Listar Registros
      */
-    getSellerList(resetPageConfig, resetFilterConfig){
+    async getSellerList(resetPageConfig, resetFilterConfig){
       // Resetar Configuração de Página
       if (resetPageConfig) {
         this.pageConfig = {
@@ -59,7 +59,7 @@ export default {
       
       // Efetuar Pesquisa
       try {
-        sellerStore().index(this.pageConfig, this.filterConfig)        
+        await sellerStore().index(this.pageConfig, this.filterConfig)        
       } catch (error) {
         console.log(error)
       }
